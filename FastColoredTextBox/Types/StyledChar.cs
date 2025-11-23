@@ -77,7 +77,7 @@ namespace FastColoredTextBoxNS.Types
             {
                 if (Styles.Contains(style))
                     return style;
-                if (LastStyleIndex == Styles.Length)
+                if (LastStyleIndex >= Styles.Length)
                     if (LastStyleIndex == int.MaxValue)
                         throw new InvalidOperationException($"You cannot add more than {LastStyleIndex} styles to a character");
                     else
