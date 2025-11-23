@@ -123,7 +123,7 @@ namespace FastColoredTextBoxNS.Text
         {
             get
             {
-                return RegexOptions.Compiled;
+                return RegexOptions.None;
             }
         }
 
