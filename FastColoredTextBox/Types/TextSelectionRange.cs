@@ -88,7 +88,9 @@ namespace FastColoredTextBoxNS.Types
             //normalize start and end
             if (s.iLine > e.iLine || (s.iLine == e.iLine && s.iChar > e.iChar))
             {
-                (e, s) = (s, e);
+                var temp = e;
+                e = s;
+                s = temp;
             }
 
             if (columnSelectionMode)
@@ -1113,7 +1115,9 @@ namespace FastColoredTextBoxNS.Types
         /// </summary>
         public void Inverse()
         {
-            (end, start) = (start, end);
+            var temp = end;
+            end = start;
+            start = temp;
         }
 
         /// <summary>

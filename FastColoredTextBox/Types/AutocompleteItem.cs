@@ -209,8 +209,8 @@
             int i = fragmentText.LastIndexOf('.');
             if (i < 0)
                 return CompareResult.Hidden;
-            string lastPart = fragmentText[(i + 1)..];
-            firstPart = fragmentText[..i];
+            string lastPart = fragmentText.Substring(i + 1);
+            firstPart = fragmentText.Substring(0, i);
 
             if (lastPart == "") return CompareResult.Visible;
             if (Text.StartsWith(lastPart, StringComparison.InvariantCultureIgnoreCase))

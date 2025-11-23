@@ -314,7 +314,7 @@ namespace FastColoredTextBoxNS.Input
             tb.EndUpdate();
 
             if (ranges.Count > 0)
-                ts.OnTextChanged(ranges[0].Start.iLine, ranges[^1].End.iLine);
+                ts.OnTextChanged(ranges[0].Start.iLine, ranges[ranges.Count - 1].End.iLine);
 
             ts.NeedRecalc(new TextSource.TextChangedEventArgs(0, 1));
         }
@@ -341,7 +341,7 @@ namespace FastColoredTextBoxNS.Input
                     InsertTextCommand.InsertText(insertedText, ts);
             }
             if (ranges.Count > 0)
-                ts.OnTextChanged(ranges[0].Start.iLine, ranges[^1].End.iLine);
+                ts.OnTextChanged(ranges[0].Start.iLine, ranges[ranges.Count - 1].End.iLine);
             tb.EndUpdate();
             tb.Selection.EndUpdate();
             ts.NeedRecalc(new TextSource.TextChangedEventArgs(0, 1));
@@ -580,7 +580,7 @@ namespace FastColoredTextBoxNS.Input
                 if (iLine < ts.Count)
                     tb.Selection.SetStartAndEnd(new Place(0, iLine));
                 else
-                    tb.Selection.SetStartAndEnd(new Place(ts[^1].Count, ts.Count - 1));
+                    tb.Selection.SetStartAndEnd(new Place(ts[ts.Count - 1].Count, ts.Count - 1));
 
                 InsertCharCommand.InsertLine(ts);
                 tb.Selection.SetStartAndEnd(new Place(0, iLine));

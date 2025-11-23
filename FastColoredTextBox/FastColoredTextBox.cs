@@ -1135,7 +1135,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         [Browsable(true)]
         [DefaultValue(null)]
-        [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+        //[Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
         [Description(
             "XML file with description of syntax highlighting. This property works only with Language == Language.Custom."
                     )]
@@ -1538,6 +1538,7 @@ namespace FastColoredTextBoxNS
                     Selection.SelectAll();
                     InsertText(value);
                     GoHome();
+                    SelectionLength = 0;
                 }
                 finally
                 {
@@ -1776,7 +1777,7 @@ namespace FastColoredTextBoxNS
         [Browsable(false)]
         public TextSelectionRange Range
         {
-            get { return new TextSelectionRange(this, new Place(0, 0), new Place(lines[^1].Count, lines.Count - 1)); }
+            get { return new TextSelectionRange(this, new Place(0, 0), new Place(lines[lines.Count - 1].Count, lines.Count - 1)); }
         }
 
         /// <summary>
@@ -2797,7 +2798,7 @@ namespace FastColoredTextBoxNS
         public void GoEnd()
         {
             if (lines.Count > 0)
-                Selection.Start = new Place(lines[^1].Count, lines.Count - 1);
+                Selection.Start = new Place(lines[lines.Count - 1].Count, lines.Count - 1);
             else
                 Selection.Start = new Place(0, 0);
 
@@ -3008,7 +3009,7 @@ namespace FastColoredTextBoxNS
             try
             {
                 if (lines.Count > 0)
-                    Selection.Start = new Place(lines[^1].Count, lines.Count - 1);
+                    Selection.Start = new Place(lines[lines.Count - 1].Count, lines.Count - 1);
                 else
                     Selection.Start = new Place(0, 0);
 
@@ -3049,7 +3050,7 @@ namespace FastColoredTextBoxNS
             try
             {
                 if (lines.Count > 0)
-                    Selection.Start = new Place(lines[^1].Count, lines.Count - 1);
+                    Selection.Start = new Place(lines[lines.Count - 1].Count, lines.Count - 1);
                 else
                     Selection.Start = new Place(0, 0);
 
@@ -3468,7 +3469,7 @@ namespace FastColoredTextBoxNS
 
                 if (segmentLength == maxCharsPerLine)
                 {
-                    if (cutOff == 0 || (cutOffPositions.Count > 0 && cutOff == cutOffPositions[^1])) cutOff = i + 1;
+                    if (cutOff == 0 || (cutOffPositions.Count > 0 && cutOff == cutOffPositions[cutOffPositions.Count - 1])) cutOff = i + 1;
                     cutOffPositions.Add(cutOff);
                     segmentLength = 1 + i - cutOff;
                     maxCharsPerLine = maxCharsPerSecondaryLine;
@@ -3502,7 +3503,7 @@ namespace FastColoredTextBoxNS
                 excessiveWidth = segmentWidth - maxWidth;
                 if (excessiveWidth > 0) //如果超宽度
                 {
-                    if (cutOff == 0 || (cutOffPositions.Count > 0 && cutOff == cutOffPositions[^1])) cutOff = i + 1;
+                    if (cutOff == 0 || (cutOffPositions.Count > 0 && cutOff == cutOffPositions[cutOffPositions.Count - 1])) cutOff = i + 1;
                     else
                     {
                         if (wrapByChar) backSet = excessiveWidth > w ? 2 : excessiveWidth >= 0 ? 1 : 0;
@@ -6537,7 +6538,7 @@ namespace FastColoredTextBoxNS
             }
 
             if (lines.Count > 0)
-                return new Place(lines[^1].Count, lines.Count - 1);
+                return new Place(lines[lines.Count - 1].Count, lines.Count - 1);
             else
                 return new Place(0, 0);
             //throw new ArgumentOutOfRangeException("Position out of range");
@@ -7077,7 +7078,7 @@ namespace FastColoredTextBoxNS
                     continue;
                 // Select first characters from the line
                 int endIndex = Math.Min(lines[i].Count, startCharIndex + TabLength);
-                string wasteText = lines[i].Text[startCharIndex..endIndex];
+                string wasteText = lines[i].Text.Substring(startCharIndex, endIndex - startCharIndex);
 
                 // Only select the first whitespace characters
                 endIndex = Math.Min(endIndex, startCharIndex + wasteText.Length - wasteText.TrimStart().Length);
@@ -7764,7 +7765,7 @@ window.status = ""#print"";
         /// </summary>
         public void OpenFile(string fileName)
         {
-            var extension = fileName[(fileName.LastIndexOf('.') + 1)..];
+            var extension = fileName.Substring(fileName.LastIndexOf('.') + 1);
             var language = LanguageDetector.StringToLanguage(extension);
             OpenFile(fileName, language);
         }
@@ -7778,7 +7779,7 @@ window.status = ""#print"";
         /// <param name="shareMode"></param>
         public void OpenBindingFile(string fileName, Encoding enc, FileAccess openMode = FileAccess.ReadWrite, FileShare shareMode = FileShare.None)
         {
-            var extension = fileName[(fileName.LastIndexOf('.') + 1)..];
+            var extension = fileName.Substring(fileName.LastIndexOf('.') + 1);
             var language = LanguageDetector.StringToLanguage(extension);
             var fts = new FileTextSource(this);
             try

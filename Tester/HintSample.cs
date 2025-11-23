@@ -1,4 +1,6 @@
-﻿using FastColoredTextBoxNS.EventArg;
+﻿
+using FastColoredTextBoxNS;
+using FastColoredTextBoxNS.Types;
 using FastColoredTextBoxNS.Feature;
 using System;
 using System.Windows.Forms;

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-windows7.0;net8.0-windows7.0;net7.0-windows7.0;net6.0-windows7.0;</TargetFrameworks>
+		<TargetFrameworks>net40</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<RootNamespace>FastColoredTextBoxNS</RootNamespace>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>

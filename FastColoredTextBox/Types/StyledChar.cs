@@ -137,7 +137,7 @@ namespace FastColoredTextBoxNS.Types
                     break;
             }
 
-            Styles[^1] = null;
+            Styles[Styles.Count() - 1] = null;
             if (!_ReadOnly || !_Blinking)
                 for (var i = 0; i < LastStyleIndex; i++)
                 {

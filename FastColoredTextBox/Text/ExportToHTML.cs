@@ -223,7 +223,8 @@ namespace FastColoredTextBoxNS.Text
                         break;
                     names.Add(style.GetType().Name);
                 }
-            return string.Join(',', names).Replace(" ", "").Replace(",", "");
+
+            return string.Join(",", names).Replace(" ", "").Replace(",", "");
         }
 
         private static string GetStyleName(Style style)

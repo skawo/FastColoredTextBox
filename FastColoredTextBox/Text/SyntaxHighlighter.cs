@@ -8,7 +8,7 @@ namespace FastColoredTextBoxNS.Text
     public class SyntaxHighlighter : IDisposable
     {
         //styles
-        protected static readonly Platform platformType = PlatformType.GetOperationSystemPlatform();
+        //protected static readonly Platform platformType = PlatformType.GetOperationSystemPlatform();
 
         public readonly Style BlueBoldStyle = new TextStyle(Brushes.DeepSkyBlue, null, FontStyle.Bold);
         public readonly Style BlueStyle = new TextStyle(Brushes.DeepSkyBlue, null, FontStyle.Regular);
@@ -123,10 +123,7 @@ namespace FastColoredTextBoxNS.Text
         {
             get
             {
-                if (platformType == Platform.X86)
-                    return RegexOptions.Compiled;
-                else
-                    return RegexOptions.None;
+                return RegexOptions.Compiled;
             }
         }
 
@@ -543,9 +540,9 @@ namespace FastColoredTextBoxNS.Text
             {
                 if (s.Length <= 7)
                     return Color.FromArgb(255,
-                                          Color.FromArgb(int.Parse(s[1..], NumberStyles.AllowHexSpecifier)));
+                                          Color.FromArgb(int.Parse(s.Substring(1), NumberStyles.AllowHexSpecifier)));
                 else
-                    return Color.FromArgb(int.Parse(s[1..], NumberStyles.AllowHexSpecifier));
+                    return Color.FromArgb(int.Parse(s.Substring(1), NumberStyles.AllowHexSpecifier));
             }
             else
                 return Color.FromName(s);
