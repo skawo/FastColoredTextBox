@@ -1676,6 +1676,8 @@ namespace FastColoredTextBoxNS
             }
         }
 
+        public static SizeF GetCharSize(Font font, char c) => CharSizeCache.GetCharSize(font, c);
+
         private void SetFont(Font newFont)
         {
             BaseFont = newFont;
@@ -1683,8 +1685,8 @@ namespace FastColoredTextBoxNS
             SizeF sizeM = GetCharSize(BaseFont, 'M');
             SizeF sizeDot = GetCharSize(BaseFont, '.');
             if (sizeM != sizeDot)
-                // BaseFont = new Font("Courier New", BaseFont.SizeInPoints, FontStyle.Regular, GraphicsUnit.Point);
-                throw new Exception($"FastColoredTextBox-SetFont(): Font not supported ({newFont.Name}), FastColoredTextBox does not support Monospace fonts.");
+                 BaseFont = new Font("Courier New", BaseFont.SizeInPoints, FontStyle.Regular, GraphicsUnit.Point);
+                //throw new Exception($"FastColoredTextBox-SetFont(): Font not supported ({newFont.Name}), FastColoredTextBox does not support Monospace fonts.");
             //calc size
             SizeF size = GetCharSize(BaseFont, 'M');
             CharWidth = (int)Math.Round(size.Width * 1f /*0.85*/) - 1 /*0*/;
@@ -2397,7 +2399,7 @@ namespace FastColoredTextBoxNS
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            m_hImc = ImmGetContext(Handle);
+            m_hImc = NativeMethodsWrapper.ImmGetContext(Handle);
         }
 
         private void Timer2_Tick(object sender, EventArgs e)
@@ -2642,12 +2644,6 @@ namespace FastColoredTextBoxNS
             data.SetData(DataFormats.Rtf, new ExportToRTF().GetRtf(Selection.Clone()));
         }
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetOpenClipboardWindow();
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr CloseClipboard();
-
         protected static void SetClipboard(DataObject data)
         {
             try
@@ -2655,7 +2651,7 @@ namespace FastColoredTextBoxNS
                 /*
             while (GetOpenClipboardWindow() != IntPtr.Zero)
                Thread.Sleep(0);*/
-                CloseClipboard();
+                NativeMethodsWrapper.CloseClipboard();
                 Clipboard.SetDataObject(data, true, 5, 100);
             }
             catch (ExternalException)
@@ -3075,14 +3071,6 @@ namespace FastColoredTextBoxNS
             Invalidate();
         }
 
-        public static SizeF GetCharSize(Font font, char c) => CharSizeCache.GetCharSize(font, c);
-
-        [DllImport("Imm32.dll")]
-        private static extern IntPtr ImmGetContext(IntPtr hWnd);
-
-        [DllImport("Imm32.dll")]
-        private static extern IntPtr ImmAssociateContext(IntPtr hWnd, IntPtr hIMC);
-
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == WM_HSCROLL || m.Msg == WM_VSCROLL)
@@ -3094,7 +3082,7 @@ namespace FastColoredTextBoxNS
             if (ImeAllowed)
                 if (m.Msg == WM_IME_SETCONTEXT && m.WParam.ToInt32() == 1)
                 {
-                    ImmAssociateContext(Handle, m_hImc);
+                    NativeMethodsWrapper.ImmAssociateContext(Handle, m_hImc);
                 }
         }
 
@@ -5080,21 +5068,6 @@ namespace FastColoredTextBoxNS
             return base.IsInputKey(keyData);
         }
 
-        [DllImport("User32.dll")]
-        private static extern bool CreateCaret(IntPtr hWnd, int hBitmap, int nWidth, int nHeight);
-
-        [DllImport("User32.dll")]
-        private static extern bool SetCaretPos(int x, int y);
-
-        [DllImport("User32.dll")]
-        private static extern bool DestroyCaret();
-
-        [DllImport("User32.dll")]
-        private static extern bool ShowCaret(IntPtr hWnd);
-
-        [DllImport("User32.dll")]
-        private static extern bool HideCaret(IntPtr hWnd);
-
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             if (BackBrush == null)
@@ -5418,16 +5391,16 @@ namespace FastColoredTextBoxNS
                 if (CaretBlinking)
                     if (prevCaretRect != caretRect || !ShowScrollBars)
                     {
-                        CreateCaret(Handle, 0, carWidth, caretHeight + 1);
-                        SetCaretPos(car.X, car.Y);
-                        ShowCaret(Handle);
+                        NativeMethodsWrapper.CreateCaret(Handle, 0, carWidth, caretHeight + 1);
+                        NativeMethodsWrapper.SetCaretPos(car.X, car.Y);
+                        NativeMethodsWrapper.ShowCaret(Handle);
                     }
 
                 prevCaretRect = caretRect;
             }
             else
             {
-                HideCaret(Handle);
+                NativeMethodsWrapper.HideCaret(Handle);
                 prevCaretRect = Rectangle.Empty;
             }
 
@@ -8184,7 +8157,7 @@ window.status = ""#print"";
                 // Refresh the control
                 Refresh();
                 // Disable drawing
-                _ = SendMessage(Handle, WM_SETREDRAW, 0, 0);
+                _ = NativeMethodsWrapper.SendMessage(Handle, WM_SETREDRAW, 0, 0);
             }
         }
 
@@ -8200,7 +8173,7 @@ window.status = ""#print"";
                 Capture = false;
                 base.Cursor = defaultCursor;
                 // Enable drawing
-                _ = SendMessage(Handle, WM_SETREDRAW, 1, 0);
+                _ = NativeMethodsWrapper.SendMessage(Handle, WM_SETREDRAW, 1, 0);
                 Invalidate();
             }
         }
@@ -8223,8 +8196,6 @@ window.status = ""#print"";
             OnScroll(yea);
         }
 
-        [DllImport("user32.dll")]
-        private static extern int SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
 
         private const int WM_SETREDRAW = 0xB;
 
@@ -8310,11 +8281,11 @@ window.status = ""#print"";
                 OnScroll(xea);
 
             // Enable drawing
-            _ = SendMessage(Handle, WM_SETREDRAW, 1, 0);
+            _ = NativeMethodsWrapper.SendMessage(Handle, WM_SETREDRAW, 1, 0);
             // Refresh the control
             Refresh();
             // Disable drawing
-            _ = SendMessage(Handle, WM_SETREDRAW, 0, 0);
+            _ = NativeMethodsWrapper.SendMessage(Handle, WM_SETREDRAW, 0, 0);
         }
 
         private void DrawMiddleClickScrolling(Graphics gr)

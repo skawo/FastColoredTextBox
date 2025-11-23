@@ -34,9 +34,9 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<Title>FastColoredTextBox</Title>
 		<PackageTags>winform;control;C#;VB;TextBox;Editor;Colored;CJK</PackageTags>
-		<AssemblyVersion>2.17.0.200</AssemblyVersion>
-		<FileVersion>2.17.0.200</FileVersion>
-		<Version>2.17.0.201</Version>
+		<AssemblyVersion>64.0.0.0</AssemblyVersion>
+		<FileVersion>64.0.0.0</FileVersion>
+		<Version>64.0.0.0</Version>
 		<PackageOutputPath>D:\PUB\Nuget Packages</PackageOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
