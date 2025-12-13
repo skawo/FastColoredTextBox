@@ -3949,6 +3949,7 @@ namespace FastColoredTextBoxNS
                     {
                         if (!Selection.IsEmpty)
                             ClearSelected();
+
                         Selection.GoWordLeft(true);
                         if (!Selection.ReadOnly)
                             ClearSelected();
@@ -5837,27 +5838,34 @@ namespace FastColoredTextBoxNS
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            Invalidate();
-
-            if (lastModifiers == Keys.Control)
+            try
             {
-                ChangeFontSize(2 * Math.Sign(e.Delta));
-                ((HandledMouseEventArgs)e).Handled = true;
+                Invalidate();
+
+                if (lastModifiers == Keys.Control)
+                {
+                    ChangeFontSize(2 * Math.Sign(e.Delta));
+                    ((HandledMouseEventArgs)e).Handled = true;
+                }
+                else
+                if (VerticalScroll.Visible || !ShowScrollBars)
+                {
+                    //base.OnMouseWheel(e);
+
+                    // Determine scoll offset
+                    int mouseWheelScrollLinesSetting = GetControlPanelWheelScrollLinesValue();
+
+                    DoScrollVertical(mouseWheelScrollLinesSetting, e.Delta);
+
+                    ((HandledMouseEventArgs)e).Handled = true;
+                }
+
+                DeactivateMiddleClickScrollingMode();
             }
-            else
-            if (VerticalScroll.Visible || !ShowScrollBars)
+            catch
             {
-                //base.OnMouseWheel(e);
 
-                // Determine scoll offset
-                int mouseWheelScrollLinesSetting = GetControlPanelWheelScrollLinesValue();
-
-                DoScrollVertical(mouseWheelScrollLinesSetting, e.Delta);
-
-                ((HandledMouseEventArgs)e).Handled = true;
             }
-
-            DeactivateMiddleClickScrollingMode();
         }
 
         private void DoScrollVertical(int countLines, int direction)
@@ -5865,7 +5873,6 @@ namespace FastColoredTextBoxNS
             if (VerticalScroll.Visible || !ShowScrollBars)
             {
                 int numberOfVisibleLines = ClientSize.Height / CharHeight;
-
                 int offset;
                 if ((countLines == -1) || (countLines > numberOfVisibleLines))
                     offset = CharHeight * numberOfVisibleLines;

@@ -1,4 +1,5 @@
 ﻿using FastColoredTextBoxNS.Text;
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -691,18 +692,44 @@ namespace FastColoredTextBoxNS.Types
             if (start.iLine < 0)
                 return;
 
-            if (tb.LineInfos[start.iLine].VisibleState != VisibleState.Visible)
+            var lineInfo = tb.LineInfos[start.iLine];
+
+            if (lineInfo.VisibleState != VisibleState.Visible)
                 return;
 
-            start = new Place(0, start.iLine);
+            if (tb.Text.Length == 0)
+                return;
+
+            var cutOffs = lineInfo.CutOffPositions;
+
+            if (cutOffs.Count == 0)
+                start = new Place(0, start.iLine);
+            else
+            {
+                int first = cutOffs.First();
+                int last = cutOffs.Last();
+
+                if (start.iChar >= last)
+                    start = new Place(last, start.iLine);
+                else if (start.iChar < first)
+                    start = new Place(0, start.iLine);
+                else
+                {
+                    int idx = cutOffs.FindIndex(x => x > start.iChar);
+
+                    start = idx <= 0
+                        ? new Place(0, start.iLine)
+                        : new Place(cutOffs[idx - 1], start.iLine);
+                }
+            }
 
             if (!shift)
                 end = start;
 
             OnSelectionChanged();
-
             preferedPos = -1;
         }
+
 
         internal void GoEnd(bool shift)
         {
@@ -710,18 +737,46 @@ namespace FastColoredTextBoxNS.Types
 
             if (start.iLine < 0)
                 return;
-            if (tb.LineInfos[start.iLine].VisibleState != VisibleState.Visible)
+
+            var lineInfo = tb.LineInfos[start.iLine];
+
+            if (lineInfo.VisibleState != VisibleState.Visible)
                 return;
 
-            start = new Place(tb[start.iLine].Count, start.iLine);
+            if (tb.Text.Length == 0)
+                return;
+
+            var cutOffs = lineInfo.CutOffPositions;
+            int lineLength = tb[start.iLine].Count;
+
+            if (cutOffs.Count == 0)
+                start = new Place(lineLength, start.iLine);
+            else
+            {
+                int first = cutOffs.First();
+                int last = cutOffs.Last();
+
+                if (start.iChar >= last)
+                    start = new Place(lineLength, start.iLine);
+                else if (start.iChar < first)
+                    start = new Place(first - 1, start.iLine);
+                else
+                {
+                    int idx = cutOffs.FindIndex(x => x > start.iChar);
+
+                    start = idx <= 0
+                        ? new Place(lineLength, start.iLine)
+                        : new Place(cutOffs[idx] - 1, start.iLine);
+                }
+            }
 
             if (!shift)
                 end = start;
 
             OnSelectionChanged();
-
             preferedPos = -1;
         }
+
 
         /// <summary>
         /// Setter changing both, the Start and End property to the same value
@@ -1297,19 +1352,28 @@ namespace FastColoredTextBoxNS.Types
 
             TextSelectionRange range = this.Clone();//to OnSelectionChanged disable
             bool wasSpace = false;
+
+
             while (IsSpaceChar(range.CharBeforeStart))
             {
+                if (range.start.iLine == 0 && range.start.iChar == 0)
+                    break;
+
                 wasSpace = true;
                 range.GoLeft(shift);
             }
             bool wasIdentifier = false;
             while (IsIdentifierChar(range.CharBeforeStart))
             {
+                if (range.start.iLine == 0 && range.start.iChar == 0)
+                    break;
+
                 wasIdentifier = true;
                 range.GoLeft(shift);
             }
             if (!wasIdentifier && (!wasSpace || range.CharBeforeStart != '\n'))
                 range.GoLeft(shift);
+
             this.Start = range.Start;
             this.End = range.End;
 
@@ -1340,6 +1404,9 @@ namespace FastColoredTextBoxNS.Types
             bool wasSpace = false;
             while (IsSpaceChar(range.CharAfterStart))
             {
+                if (range.end.iLine == tb.LinesCount - 1 && range.end.iChar >= tb.Lines[tb.LinesCount - 1].Length - 1)
+                    break;
+
                 wasSpace = true;
                 range.GoRight(shift);
             }
@@ -1349,6 +1416,9 @@ namespace FastColoredTextBoxNS.Types
                 bool wasIdentifier = false;
                 while (IsIdentifierChar(range.CharAfterStart))
                 {
+                    if (range.end.iLine == tb.LinesCount - 1 && range.end.iChar > tb.Lines[tb.LinesCount - 1].Length - 1)
+                        break;
+
                     wasIdentifier = true;
                     range.GoRight(shift);
                 }
@@ -1358,7 +1428,12 @@ namespace FastColoredTextBoxNS.Types
 
                 if (goToStartOfNextWord && !wasSpace)
                     while (IsSpaceChar(range.CharAfterStart))
+                    {
+                        if (range.end.iLine == tb.LinesCount - 1 && range.end.iChar > tb.Lines[tb.LinesCount - 1].Length - 1)
+                            break;
+
                         range.GoRight(shift);
+                    }
             }
 
             this.Start = range.Start;
