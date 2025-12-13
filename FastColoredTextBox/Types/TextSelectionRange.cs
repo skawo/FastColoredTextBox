@@ -545,8 +545,7 @@ namespace FastColoredTextBoxNS.Types
                     return;
                 }
 
-            if (preferedPos < 0)
-                preferedPos = start.iChar - tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar));
+            EnsurePreferredPos();
 
             int iWW = tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar);
             if (iWW == 0)
@@ -555,7 +554,7 @@ namespace FastColoredTextBoxNS.Types
                 int i = tb.FindPrevVisibleLine(start.iLine);
                 if (i == start.iLine) return;
                 start.iLine = i;
-                iWW = tb.LineInfos[start.iLine].WordWrapStringsCount;
+                iWW = tb.LineInfos[start.iLine].WordWrapStringsCount - 1;
             }
 
             if (iWW > 0)
@@ -576,8 +575,7 @@ namespace FastColoredTextBoxNS.Types
         {
             ColumnSelectionMode = false;
 
-            if (preferedPos < 0)
-                preferedPos = start.iChar - tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar));
+            EnsurePreferredPos();
 
             int pageHeight = tb.ClientRectangle.Height / tb.CharHeight - 1;
 
@@ -609,6 +607,19 @@ namespace FastColoredTextBoxNS.Types
             OnSelectionChanged();
         }
 
+        void EnsurePreferredPos()
+        {
+            if (preferedPos >= 0) return;
+
+            int iWW = tb.LineInfos[start.iLine]
+                .GetWordWrapStringIndex(start.iChar);
+
+            int wrapStart = tb.LineInfos[start.iLine]
+                .GetWordWrapStringStartPosition(iWW);
+
+            preferedPos = start.iChar - wrapStart;
+        }
+
         internal void GoDown(bool shift)
         {
             ColumnSelectionMode = false;
@@ -620,8 +631,7 @@ namespace FastColoredTextBoxNS.Types
                     return;
                 }
 
-            if (preferedPos < 0)
-                preferedPos = start.iChar - tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar));
+            EnsurePreferredPos();
 
             int iWW = tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar);
             if (iWW >= tb.LineInfos[start.iLine].WordWrapStringsCount - 1)
@@ -652,8 +662,7 @@ namespace FastColoredTextBoxNS.Types
         {
             ColumnSelectionMode = false;
 
-            if (preferedPos < 0)
-                preferedPos = start.iChar - tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar));
+            EnsurePreferredPos();
 
             int pageHeight = tb.ClientRectangle.Height / tb.CharHeight - 1;
 
@@ -689,45 +698,26 @@ namespace FastColoredTextBoxNS.Types
         {
             ColumnSelectionMode = false;
 
-            if (start.iLine < 0)
+            if (start.iLine < 0 || tb.Text.Length == 0)
                 return;
 
             var lineInfo = tb.LineInfos[start.iLine];
-
             if (lineInfo.VisibleState != VisibleState.Visible)
                 return;
 
-            if (tb.Text.Length == 0)
-                return;
+            int iWW = lineInfo.GetWordWrapStringIndex(start.iChar);
+            int wrapStart = lineInfo.GetWordWrapStringStartPosition(iWW);
 
-            var cutOffs = lineInfo.CutOffPositions;
-
-            if (cutOffs.Count == 0)
-                start = new Place(0, start.iLine);
+            if (start.iChar <= wrapStart)
+                start.iChar = 0;
             else
-            {
-                int first = cutOffs.First();
-                int last = cutOffs.Last();
-
-                if (start.iChar >= last)
-                    start = new Place(last, start.iLine);
-                else if (start.iChar < first)
-                    start = new Place(0, start.iLine);
-                else
-                {
-                    int idx = cutOffs.FindIndex(x => x > start.iChar);
-
-                    start = idx <= 0
-                        ? new Place(0, start.iLine)
-                        : new Place(cutOffs[idx - 1], start.iLine);
-                }
-            }
+                start.iChar = wrapStart;
 
             if (!shift)
                 end = start;
 
-            OnSelectionChanged();
             preferedPos = -1;
+            OnSelectionChanged();
         }
 
 
@@ -735,46 +725,28 @@ namespace FastColoredTextBoxNS.Types
         {
             ColumnSelectionMode = false;
 
-            if (start.iLine < 0)
+            if (start.iLine < 0 || tb.Text.Length == 0)
                 return;
 
             var lineInfo = tb.LineInfos[start.iLine];
-
             if (lineInfo.VisibleState != VisibleState.Visible)
                 return;
 
-            if (tb.Text.Length == 0)
-                return;
-
-            var cutOffs = lineInfo.CutOffPositions;
             int lineLength = tb[start.iLine].Count;
 
-            if (cutOffs.Count == 0)
-                start = new Place(lineLength, start.iLine);
+            int iWW = lineInfo.GetWordWrapStringIndex(start.iChar);
+            int wrapFinish = lineInfo.GetWordWrapStringFinishPosition(iWW, tb[start.iLine]);
+
+            if (start.iChar >= wrapFinish)
+                start.iChar = lineLength;
             else
-            {
-                int first = cutOffs.First();
-                int last = cutOffs.Last();
-
-                if (start.iChar >= last)
-                    start = new Place(lineLength, start.iLine);
-                else if (start.iChar < first)
-                    start = new Place(first - 1, start.iLine);
-                else
-                {
-                    int idx = cutOffs.FindIndex(x => x > start.iChar);
-
-                    start = idx <= 0
-                        ? new Place(lineLength, start.iLine)
-                        : new Place(cutOffs[idx] - 1, start.iLine);
-                }
-            }
+                start.iChar = wrapFinish;
 
             if (!shift)
                 end = start;
 
-            OnSelectionChanged();
             preferedPos = -1;
+            OnSelectionChanged();
         }
 
 
