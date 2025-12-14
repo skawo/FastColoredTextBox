@@ -3481,7 +3481,7 @@ namespace FastColoredTextBoxNS
                 c = line[i].C;
                 var wrapByChar = (UseCJK != CJKMode.Disabled && EncodingDetector.IsCJK(c)) || charWrap;
                 if (wrapByChar
-                    || !char.IsLetterOrDigit(c) && c != '_' && c != '\'' && c != '\xa0' && ((c != '.' && c != ',') || !char.IsDigit(line[i + 1].C)))//dot before digit
+                    || !char.IsPunctuation(c) && !char.IsLetterOrDigit(c) && c != '_' && c != '\'' && c != '\xa0' && ((c != '.' && c != ',') || !char.IsDigit(line[i + 1].C)))//dot before digit
                 {
                     cutOff = Math.Min(i + 1, line.Count - 1);
                 }
@@ -6126,6 +6126,7 @@ namespace FastColoredTextBoxNS
             point.Offset(HorizontalScroll.Value, VerticalScroll.Value);
             point.Offset(-LeftIndent - Paddings.Left, 0);
             int iLine = YtoLineIndex(point.Y);
+
             if (iLine < 0)
                 return Place.Empty;
 
@@ -6162,12 +6163,22 @@ namespace FastColoredTextBoxNS
             var line = lines[iLine];
             int start = LineInfos[iLine].GetWordWrapStringStartPosition(iWordWrapLine);
             int finish = LineInfos[iLine].GetWordWrapStringFinishPosition(iWordWrapLine, line);
+
             var x = XToCharIndex(point.X, line, start);
+
             if (iWordWrapLine > 0)
                 x -= LineInfos[iLine].wordWrapIndent;
 
             x = x < 0 ? start : start + x;
-            if (x > finish) x = finish + 1;
+
+            if (x > finish)
+            {
+                if (iWordWrapLine == LineInfos[iLine].WordWrapStringsCount - 1)
+                    x = finish + 1;  
+                else
+                    x = finish;     
+            }
+
             if (x > line.Count) x = line.Count;
 
 #if debug
@@ -6216,6 +6227,7 @@ namespace FastColoredTextBoxNS
                 if (kv.Value >= pointX) return kv.Key;
                 else charIndex = kv.Key;
             }
+
             return charIndex;
         }
 

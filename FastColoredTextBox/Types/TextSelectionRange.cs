@@ -538,38 +538,71 @@ namespace FastColoredTextBoxNS.Types
         {
             ColumnSelectionMode = false;
 
-            if (!shift)
-                if (start.iLine > end.iLine)
-                {
-                    Start = End;
-                    return;
-                }
+            if (!shift && start.iLine > end.iLine)
+            {
+                Start = End;
+                return;
+            }
 
             EnsurePreferredPos();
 
-            int iWW = tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar);
+            var lineInfo = tb.LineInfos[start.iLine];
+            int iWW = lineInfo.GetWordWrapStringIndex(start.iChar);
+
             if (iWW == 0)
             {
-                if (start.iLine <= 0) return;
-                int i = tb.FindPrevVisibleLine(start.iLine);
-                if (i == start.iLine) return;
-                start.iLine = i;
-                iWW = tb.LineInfos[start.iLine].WordWrapStringsCount - 1;
+                if (start.iLine <= 0)
+                    return;
+
+                int prevLine = tb.FindPrevVisibleLine(start.iLine);
+                if (prevLine == start.iLine)
+                    return;
+
+                start.iLine = prevLine;
+
+                lineInfo = tb.LineInfos[start.iLine];
+                int lastWW = lineInfo.WordWrapStringsCount - 1;
+
+                int wrapStart = lineInfo.GetWordWrapStringStartPosition(lastWW);
+                int wrapFinish = lineInfo.GetWordWrapStringFinishPosition(lastWW, tb[start.iLine]);
+                int lineLength = tb[start.iLine].Count;
+
+                start.iChar = wrapStart + preferedPos;
+
+                if (lastWW == lineInfo.WordWrapStringsCount - 1)
+                {
+                    if (start.iChar > lineLength)
+                        start.iChar = lineLength;
+                }
+                else
+                {
+                    if (start.iChar > wrapFinish)
+                        start.iChar = wrapFinish;
+                }
+
+                if (!shift)
+                    end = start;
+
+                OnSelectionChanged();
+                return;
             }
 
-            if (iWW > 0)
-            {
-                int finish = tb.LineInfos[start.iLine].GetWordWrapStringFinishPosition(iWW - 1, tb[start.iLine]);
-                start.iChar = tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(iWW - 1) + preferedPos;
-                if (start.iChar > finish + 1)
-                    start.iChar = finish + 1;
-            }
+            int prevWW = iWW - 1;
+
+            int prevWrapStart = lineInfo.GetWordWrapStringStartPosition(prevWW);
+            int prevWrapFinish = lineInfo.GetWordWrapStringFinishPosition(prevWW, tb[start.iLine]);
+
+            start.iChar = prevWrapStart + preferedPos;
+
+            if (start.iChar > prevWrapFinish)
+                start.iChar = prevWrapFinish;
 
             if (!shift)
                 end = start;
 
             OnSelectionChanged();
         }
+
 
         internal void GoPageUp(bool shift)
         {
@@ -582,6 +615,7 @@ namespace FastColoredTextBoxNS.Types
             for (int i = 0; i < pageHeight; i++)
             {
                 int iWW = tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar);
+
                 if (iWW == 0)
                 {
                     if (start.iLine <= 0) break;
@@ -596,8 +630,9 @@ namespace FastColoredTextBoxNS.Types
                 {
                     int finish = tb.LineInfos[start.iLine].GetWordWrapStringFinishPosition(iWW - 1, tb[start.iLine]);
                     start.iChar = tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(iWW - 1) + preferedPos;
-                    if (start.iChar > finish + 1)
-                        start.iChar = finish + 1;
+
+                    if (start.iChar > finish)
+                        start.iChar = finish;
                 }
             }
 
@@ -607,7 +642,7 @@ namespace FastColoredTextBoxNS.Types
             OnSelectionChanged();
         }
 
-        void EnsurePreferredPos()
+        internal void EnsurePreferredPos()
         {
             if (preferedPos >= 0) return;
 
@@ -624,32 +659,53 @@ namespace FastColoredTextBoxNS.Types
         {
             ColumnSelectionMode = false;
 
-            if (!shift)
-                if (start.iLine < end.iLine)
-                {
-                    Start = End;
-                    return;
-                }
+            if (!shift && start.iLine < end.iLine)
+            {
+                Start = End;
+                return;
+            }
 
             EnsurePreferredPos();
 
-            int iWW = tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar);
-            if (iWW >= tb.LineInfos[start.iLine].WordWrapStringsCount - 1)
+            var lineInfo = tb.LineInfos[start.iLine];
+            int iWW = lineInfo.GetWordWrapStringIndex(start.iChar);
+
+            if (iWW >= lineInfo.WordWrapStringsCount - 1)
             {
-                if (start.iLine >= tb.LinesCount - 1) return;
-                //pass hidden
-                int i = tb.FindNextVisibleLine(start.iLine);
-                if (i == start.iLine) return;
-                start.iLine = i;
+                if (start.iLine >= tb.LinesCount - 1)
+                    return;
+
+                int nextLine = tb.FindNextVisibleLine(start.iLine);
+                if (nextLine == start.iLine)
+                    return;
+
+                start.iLine = nextLine;
+                lineInfo = tb.LineInfos[start.iLine];
                 iWW = -1;
             }
 
-            if (iWW < tb.LineInfos[start.iLine].WordWrapStringsCount - 1)
+            if (iWW < lineInfo.WordWrapStringsCount - 1)
             {
-                int finish = tb.LineInfos[start.iLine].GetWordWrapStringFinishPosition(iWW + 1, tb[start.iLine]);
-                start.iChar = tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(iWW + 1) + preferedPos;
-                if (start.iChar > finish + 1)
-                    start.iChar = finish + 1;
+                int nextWW = iWW + 1;
+
+                int wrapStart = lineInfo.GetWordWrapStringStartPosition(nextWW);
+                int wrapFinish = lineInfo.GetWordWrapStringFinishPosition(nextWW, tb[start.iLine]);
+
+                bool isLastWrap = nextWW == lineInfo.WordWrapStringsCount - 1;
+                int lineLength = tb[start.iLine].Count;
+
+                start.iChar = wrapStart + preferedPos;
+
+                if (isLastWrap)
+                {
+                    if (start.iChar > lineLength)
+                        start.iChar = lineLength;
+                }
+                else
+                {
+                    if (start.iChar > wrapFinish)
+                        start.iChar = wrapFinish;
+                }
             }
 
             if (!shift)
@@ -657,6 +713,7 @@ namespace FastColoredTextBoxNS.Types
 
             OnSelectionChanged();
         }
+
 
         internal void GoPageDown(bool shift)
         {
@@ -735,12 +792,14 @@ namespace FastColoredTextBoxNS.Types
             int lineLength = tb[start.iLine].Count;
 
             int iWW = lineInfo.GetWordWrapStringIndex(start.iChar);
+            bool isLastWrap = iWW == lineInfo.WordWrapStringsCount - 1;
+
             int wrapFinish = lineInfo.GetWordWrapStringFinishPosition(iWW, tb[start.iLine]);
 
-            if (start.iChar >= wrapFinish)
-                start.iChar = lineLength;
+            if (isLastWrap)
+                start.iChar = lineLength; 
             else
-                start.iChar = wrapFinish;
+                start.iChar = wrapFinish; 
 
             if (!shift)
                 end = start;
