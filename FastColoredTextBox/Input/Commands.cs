@@ -43,7 +43,7 @@ namespace FastColoredTextBoxNS.Input
                     ts.CurrentTB.ExpandBlock(sel.Start.iLine);
                     for (int i = sel.FromX; i < lastSel.FromX; i++)
                         ts[sel.Start.iLine].RemoveAt(sel.Start.iChar);
-                    ts.CurrentTB.Selection.SetStartAndEnd(lastSel.Start);
+                    ts.CurrentTB.Selection.SetStartAndEnd(sel.End);
                     break;
 
                 default:

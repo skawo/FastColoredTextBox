@@ -6550,6 +6550,7 @@ namespace FastColoredTextBoxNS
         {
             if (place.iLine >= LineInfos.Count)
                 return new Point();
+
             int y = LineInfos[place.iLine].startY;
             //
             int iWordWrapIndex = LineInfos[place.iLine].GetWordWrapStringIndex(place.iChar);
@@ -6559,7 +6560,8 @@ namespace FastColoredTextBoxNS
             int i = LineInfos[place.iLine].GetWordWrapStringStartPosition(iWordWrapIndex);
             string text = lines[place.iLine].Text;
             int x = 0;
-            if (text.Length > 0) for (; i < place.iChar; i++) x += GetCharWidth(text[i]);
+
+            if (text.Length > 0) for (; i < Math.Min(text.Length, place.iChar); i++) x += GetCharWidth(text[i]);
 
             if (iWordWrapIndex > 0)
                 x += LineInfos[place.iLine].wordWrapIndent * CharWidth;
