@@ -1,4 +1,4 @@
-﻿namespace FastColoredTextBoxNS
+﻿namespace FastColoredTextBoxCJK
 {
     public partial class GoToForm : Form
     {

@@ -36,7 +36,7 @@
 
 #endregion BSD 3-Clause License
 
-namespace FastColoredTextBoxNS.Types;
+namespace FastColoredTextBoxCJK.Types;
 
 /// <summary>
 /// A class in charge of managing a list of <see cref="Style"/> instances.

@@ -13,9 +13,9 @@
 // -------------------------------------------------------------------------------
 
 
-using FastColoredTextBoxNS.Input;
+using FastColoredTextBoxCJK.Input;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     /// <summary>
     /// CustomAction event args

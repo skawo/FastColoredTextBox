@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace FastColoredTextBoxNS.Types
+namespace FastColoredTextBoxCJK.Types
 {
     /// <summary>
     /// Line of text

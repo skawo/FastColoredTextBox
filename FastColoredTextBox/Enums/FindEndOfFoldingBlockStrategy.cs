@@ -12,7 +12,7 @@
 
 // -------------------------------------------------------------------------------
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     /// <summary>
     /// Strategy of search of end of folding block

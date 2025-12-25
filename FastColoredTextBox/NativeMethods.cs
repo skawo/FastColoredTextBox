@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     internal class NativeMethods
     {

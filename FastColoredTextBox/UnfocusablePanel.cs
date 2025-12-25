@@ -1,6 +1,6 @@
 ﻿using System.Drawing.Drawing2D;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     [System.ComponentModel.ToolboxItem(false)]
     public class UnfocusablePanel : UserControl

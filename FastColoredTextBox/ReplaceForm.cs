@@ -1,9 +1,9 @@
-﻿using FastColoredTextBoxNS.Input;
-using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Input;
+using FastColoredTextBoxCJK.Types;
 using System.Text.RegularExpressions;
 
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     public partial class ReplaceForm : Form
     {

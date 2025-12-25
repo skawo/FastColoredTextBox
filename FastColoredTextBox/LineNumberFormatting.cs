@@ -1,4 +1,4 @@
-﻿namespace FastColoredTextBoxNS
+﻿namespace FastColoredTextBoxCJK
 {
     /// <summary>
     /// Customize how we display the line numbers

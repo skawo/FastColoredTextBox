@@ -1,6 +1,6 @@
-﻿using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Types;
 
-namespace FastColoredTextBoxNS.Feature
+namespace FastColoredTextBoxCJK.Feature
 {
     public class VisualMarker
     {

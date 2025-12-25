@@ -1,4 +1,4 @@
-﻿namespace FastColoredTextBoxNS.Types
+﻿namespace FastColoredTextBoxCJK.Types
 {
     /// <summary>
     /// Calling MeasureText on each char is extremly slow

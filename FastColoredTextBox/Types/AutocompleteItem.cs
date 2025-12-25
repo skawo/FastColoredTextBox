@@ -1,4 +1,4 @@
-﻿namespace FastColoredTextBoxNS.Types
+﻿namespace FastColoredTextBoxCJK.Types
 {
     /// <summary>
     /// Item of autocomplete menu

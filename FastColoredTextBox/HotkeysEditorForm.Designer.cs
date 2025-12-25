@@ -1,4 +1,4 @@
-﻿namespace FastColoredTextBoxNS
+﻿namespace FastColoredTextBoxCJK
 {
     partial class HotkeysEditorForm
     {

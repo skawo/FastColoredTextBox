@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing.Drawing2D;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     public partial class Ruler : UserControl
     {

@@ -1,4 +1,4 @@
-﻿namespace FastColoredTextBoxNS.Types
+﻿namespace FastColoredTextBoxCJK.Types
 {
     /// <summary>
     /// Line index and char index

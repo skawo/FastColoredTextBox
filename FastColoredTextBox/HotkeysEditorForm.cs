@@ -1,8 +1,8 @@
-﻿using FastColoredTextBoxNS.Input;
+﻿using FastColoredTextBoxCJK.Input;
 using System.ComponentModel;
 using System.Text;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     public partial class HotkeysEditorForm : Form
     {

@@ -1,9 +1,9 @@
-﻿using FastColoredTextBoxNS.Text;
+﻿using FastColoredTextBoxCJK.Text;
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace FastColoredTextBoxNS.Types
+namespace FastColoredTextBoxCJK.Types
 {
     /// <summary>
     /// Diapason of text chars

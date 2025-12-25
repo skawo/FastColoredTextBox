@@ -1,9 +1,9 @@
 ﻿//#define debug
 
-using FastColoredTextBoxNS.Types;
+using FastColoredTextBoxCJK.Types;
 using System.Text;
 
-namespace FastColoredTextBoxNS.Text
+namespace FastColoredTextBoxCJK.Text
 {
     /// <summary>
     /// This class contains the source text (chars and styles).

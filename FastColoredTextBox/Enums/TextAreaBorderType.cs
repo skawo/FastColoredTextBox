@@ -13,7 +13,7 @@
 // -------------------------------------------------------------------------------
 
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     public enum TextAreaBorderType
     {

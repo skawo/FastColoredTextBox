@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     internal class NativeMethodsWrapper : NativeMethods
     {

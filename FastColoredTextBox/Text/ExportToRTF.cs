@@ -1,7 +1,7 @@
-﻿using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Types;
 using System.Text;
 
-namespace FastColoredTextBoxNS.Text
+namespace FastColoredTextBoxCJK.Text
 {
     /// <summary>
     /// Exports colored text as RTF

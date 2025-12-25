@@ -2,7 +2,7 @@
 using System.Text;
 using System.Xml;
 
-namespace FastColoredTextBoxNS.Input
+namespace FastColoredTextBoxCJK.Input
 {
     /// <summary>
     /// This class records, stores and executes the macros.

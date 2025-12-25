@@ -13,9 +13,9 @@
 // -------------------------------------------------------------------------------
 
 
-using FastColoredTextBoxNS.Types;
+using FastColoredTextBoxCJK.Types;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     /// <summary>
     /// ToolTipNeeded event args

@@ -1,7 +1,7 @@
-﻿using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Types;
 using System.Drawing.Drawing2D;
 
-namespace FastColoredTextBoxNS.Feature
+namespace FastColoredTextBoxCJK.Feature
 {
     /// <summary>
     /// Base class for bookmark collection

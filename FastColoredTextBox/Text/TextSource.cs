@@ -1,9 +1,9 @@
-﻿using FastColoredTextBoxNS.Input;
-using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Input;
+using FastColoredTextBoxCJK.Types;
 using System.Collections;
 using System.Text;
 
-namespace FastColoredTextBoxNS.Text
+namespace FastColoredTextBoxCJK.Text
 {
     /// <summary>
     /// This class contains the source text (chars and styles).

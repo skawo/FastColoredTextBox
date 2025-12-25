@@ -1,6 +1,6 @@
 ﻿// ReSharper disable ExceptionNotDocumented
 
-namespace FastColoredTextBoxNS.Types
+namespace FastColoredTextBoxCJK.Types
 {
     /// <summary>
     /// Char and style

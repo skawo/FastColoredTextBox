@@ -12,7 +12,7 @@
 
 // -------------------------------------------------------------------------------
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     public enum WordWrapMode
     {

@@ -1,7 +1,7 @@
-﻿using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Types;
 using System.Text.RegularExpressions;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     public partial class FindForm : Form
     {

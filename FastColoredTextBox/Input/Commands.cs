@@ -1,7 +1,7 @@
-﻿using FastColoredTextBoxNS.Text;
-using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Text;
+using FastColoredTextBoxCJK.Types;
 
-namespace FastColoredTextBoxNS.Input
+namespace FastColoredTextBoxCJK.Input
 {
     /// <summary>
     /// Insert single char

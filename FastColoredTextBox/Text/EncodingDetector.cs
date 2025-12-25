@@ -4,7 +4,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace FastColoredTextBoxNS.Text
+namespace FastColoredTextBoxCJK.Text
 {
     public static class EncodingDetector
     {

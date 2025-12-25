@@ -22,14 +22,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms.Design;
 using Microsoft.Win32;
-using FastColoredTextBoxNS.Feature;
-using FastColoredTextBoxNS.Input;
-using FastColoredTextBoxNS.Text;
-using FastColoredTextBoxNS.Types;
+using FastColoredTextBoxCJK.Feature;
+using FastColoredTextBoxCJK.Input;
+using FastColoredTextBoxCJK.Text;
+using FastColoredTextBoxCJK.Types;
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
 using Timer = System.Windows.Forms.Timer;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     /// <summary>
     /// Fast colored textbox

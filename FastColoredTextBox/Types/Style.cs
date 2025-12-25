@@ -1,8 +1,8 @@
-﻿using FastColoredTextBoxNS.Feature;
-using FastColoredTextBoxNS.Text;
+﻿using FastColoredTextBoxCJK.Feature;
+using FastColoredTextBoxCJK.Text;
 using System.Drawing.Drawing2D;
 
-namespace FastColoredTextBoxNS.Types
+namespace FastColoredTextBoxCJK.Types
 {
     /// <summary>
     /// Style of chars

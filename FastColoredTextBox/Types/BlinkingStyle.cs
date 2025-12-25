@@ -36,7 +36,7 @@
 
 #endregion BSD 3-Clause License
 
-namespace FastColoredTextBoxNS.Types;
+namespace FastColoredTextBoxCJK.Types;
 
 /// <summary>
 /// A style that defines blinking text.

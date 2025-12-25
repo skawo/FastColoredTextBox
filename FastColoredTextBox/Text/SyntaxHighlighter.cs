@@ -1,9 +1,9 @@
-﻿using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Types;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace FastColoredTextBoxNS.Text
+namespace FastColoredTextBoxCJK.Text
 {
     public class SyntaxHighlighter : IDisposable
     {

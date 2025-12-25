@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FastColoredTextBoxNS.Text
+namespace FastColoredTextBoxCJK.Text
 {
     ///
     /// These classes are required for correct data binding to Text property of FastColoredTextbox

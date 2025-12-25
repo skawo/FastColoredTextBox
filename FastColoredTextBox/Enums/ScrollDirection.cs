@@ -12,7 +12,7 @@
 
 // -------------------------------------------------------------------------------
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     [Flags]
     public enum ScrollDirection : ushort

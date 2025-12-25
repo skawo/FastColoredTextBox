@@ -1,4 +1,4 @@
-﻿namespace FastColoredTextBoxNS.Types
+﻿namespace FastColoredTextBoxCJK.Types
 {
     public class LinesAccessor : IList<string>
     {

@@ -11,7 +11,7 @@
 //  Copyright (C) Xiaoyuvax, 2024-?.
 // -------------------------------------------------------------------------------
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     public enum CJKMode
     {

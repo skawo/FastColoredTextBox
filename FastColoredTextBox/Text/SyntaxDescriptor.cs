@@ -1,7 +1,7 @@
-﻿using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Types;
 using System.Text.RegularExpressions;
 
-namespace FastColoredTextBoxNS.Text
+namespace FastColoredTextBoxCJK.Text
 {
     public class SyntaxDescriptor : IDisposable
     {

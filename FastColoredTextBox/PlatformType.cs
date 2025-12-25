@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     public static class PlatformType
     {

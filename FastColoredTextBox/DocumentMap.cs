@@ -1,8 +1,8 @@
-﻿using FastColoredTextBoxNS.Types;
+﻿using FastColoredTextBoxCJK.Types;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     /// <summary>
     /// Shows document map of FCTB

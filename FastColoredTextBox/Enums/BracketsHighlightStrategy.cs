@@ -13,7 +13,7 @@
 // -------------------------------------------------------------------------------
 
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     /// <summary>
     /// Strategy of search of brackets to highlighting

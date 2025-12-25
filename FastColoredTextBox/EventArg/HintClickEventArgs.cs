@@ -13,9 +13,9 @@
 // -------------------------------------------------------------------------------
 
 
-using FastColoredTextBoxNS.Feature;
+using FastColoredTextBoxCJK.Feature;
 
-namespace FastColoredTextBoxNS
+namespace FastColoredTextBoxCJK
 {
     /// <summary>
     /// HintClick event args
